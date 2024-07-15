@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/components/theme-provider"
+import Header from "@/components/header";
+import { APP } from "@/lib/consts";
 
 const fontSans = FontSans({ 
   subsets: ["latin"],
@@ -9,8 +12,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "My finance",
-  description: "Application of finances with dashboard",
+  title: APP.title,
+  description: APP.description
 };
 
 export default function RootLayout({
@@ -19,14 +22,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
       className={cn(
-        "min-h-screen bg-background font-sans antialiased",
+        "min-h-screen bg-background font-sans antialiased w-full",
         fontSans.variable
       )}
       >
-        {children}
+        <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        >
+          <Header />
+          <main className="flex flex-col items-center justify-between px-10 py-4 max-w-5xl mx-auto">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
