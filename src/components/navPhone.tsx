@@ -34,6 +34,9 @@ export function DropdownMenuRadioGroupDemo({
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <Link href='/'>
+          <DropdownMenuRadioItem value="Inicio" onClick={() => setState(!state)}>Inicio</DropdownMenuRadioItem>
+        </Link>
           {
             NAVIGATION.map( link => (
               <>
