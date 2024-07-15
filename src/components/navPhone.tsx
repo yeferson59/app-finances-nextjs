@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { NAVIGATION } from "@/lib/consts";
    
 export function DropdownMenuRadioGroupDemo({
   active
@@ -31,14 +32,18 @@ export function DropdownMenuRadioGroupDemo({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Menu</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-        <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+          {
+            NAVIGATION.map( link => (
+              <>
+                <DropdownMenuSeparator />
+                <Link href={link.link}>
+                  <DropdownMenuRadioItem value={link.name}>{link.name}</DropdownMenuRadioItem>
+                </Link>
+              </>
+            ))
+          }
         </DropdownMenuRadioGroup>
         <div className="flex md:flex-row items-center gap-2 justify-between">
           <ModeToggle/>
