@@ -1,9 +1,12 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { FormEvent, useState, useRef } from "react"
 
 export default function Authentication({
   type
@@ -11,6 +14,31 @@ export default function Authentication({
 {
   type:string
 }) {
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [isCorrect, setIsCorrect] = useState(true)
+  const formRef = useRef(null)
+  const [email, setEmail] = useState("")
+  const [errorLogin, setErrorLogin] = useState(false)
+
+  const router = useRouter()
+
+  function handleSubmit(e:FormEvent){
+    e.preventDefault()
+    if(type === 'signUp'){
+      if(password !== confirmPassword){
+        setIsCorrect(false)
+        return
+      }
+    }
+    if(type === 'signIn'){
+      if(password !== '1234' || email !== 'nombre@ejemplo.com'){
+        setErrorLogin(true)
+        return
+      }
+      router.push('/dashboard/')
+    }
+  }
   return (
     <div className="w-full lg:grid lg:min-h-[300px] lg:grid-cols-2 xl:min-h-[500px]">
       <div className="flex items-center justify-center py-12">
@@ -25,7 +53,7 @@ export default function Authentication({
               Ingrese su información personal
             </p>
           </div>
-          <div className="grid gap-4">
+          <form className="grid gap-4" onSubmit={handleSubmit} ref={formRef}>
             {
               type === 'signUp' && (
                 <div className="grid gap-2">
@@ -57,6 +85,8 @@ export default function Authentication({
                 type="email"
                 placeholder="m@ejemplo.com"
                 required
+                onChange={(e) => setEmail(e.target.value)}
+
               />
             </div>
             <div className="grid gap-2">
@@ -75,28 +105,51 @@ export default function Authentication({
                   <Label htmlFor="password">Contraseña</Label>
                 )
               }
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)}/>
+              {
+                isCorrect === false && type === 'signUp' && (
+                  <span className="text-pretty text-red-600 text-sm font-semibold">Las contraseñas no son iguales</span>
+                )
+              }
+              {
+                errorLogin === true && (
+                  <span className="text-pretty text-red-600 text-sm font-semibold">No coincide la contraseña o el correo suministrado</span>
+                )
+              }
             </div>
+            {
+              type === 'signUp' && (
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Confirmar contraseña</Label>
+                  <Input id="confirmPassword" type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                </div>
+              )
+            }
+            {
+              isCorrect === false && type === 'signUp' && (
+                <span className="text-pretty text-red-600 text-sm font-semibold">Las contraseñas no son iguales</span>
+              )
+            }
             <Button type="submit" className="w-full">
               {
                 type === 'signIn' ? 'Iniciar sesión' : 'Registrarse'
               }
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" type="button">
               Iniciar sesión con Google
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
             {
               type === 'signIn' ? '¿Todavía no estás registrado? ' : '¿Ya estás registrado? '
             }
             {
               type === 'signIn' ? (
-                <Link href="/dashboard/sign-up" className="underline">
+                <Link href="/login/sign-up" className="underline">
                   Registrarse
                 </Link>
               ) : (
-                <Link href="/dashboard/sign-in" className="underline">
+                <Link href="/login/sign-in" className="underline">
                   Iniciar sesión
                 </Link>
               )
@@ -106,7 +159,7 @@ export default function Authentication({
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/placeholder.svg"
+          src="/next.svg"
           alt="Image"
           width="1920"
           height="1080"
