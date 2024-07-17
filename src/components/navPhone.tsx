@@ -5,6 +5,7 @@ import { useState } from "react"
 import { ModeToggle } from "@/components/button-theme"
 import Link from "next/link";
 import { Menu } from "lucide-react"
+import { NAVIGATION } from "@/lib/consts";
 
 import {
   DropdownMenu,
@@ -15,7 +16,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { NAVIGATION } from "@/lib/consts";
    
 export function DropdownMenuRadioGroupDemo({
   active
@@ -37,16 +37,18 @@ export function DropdownMenuRadioGroupDemo({
         <Link href='/'>
           <DropdownMenuRadioItem value="Inicio" onClick={() => setState(!state)}>Inicio</DropdownMenuRadioItem>
         </Link>
+        <ul>
           {
             NAVIGATION.map( link => (
-              <>
+              <li key={link.id}>
                 <DropdownMenuSeparator />
                 <Link href={link.link}>
                   <DropdownMenuRadioItem value={link.name}>{link.name}</DropdownMenuRadioItem>
                 </Link>
-              </>
+              </li>
             ))
           }
+        </ul>
         </DropdownMenuRadioGroup>
         <div className="flex md:flex-row items-center gap-2 justify-between">
           <ModeToggle/>
