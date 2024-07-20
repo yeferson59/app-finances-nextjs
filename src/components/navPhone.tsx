@@ -16,18 +16,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { usePathname } from "next/navigation";
    
-export function DropdownMenuRadioGroupDemo({
-  active
-}: {
-  active:boolean
-}) {
-  const [state, setState] = useState(active)
+export function DropdownMenuRadioGroupDemo() {
   const [position, setPosition] = useState("bottom")
+
+  const pathname = usePathname()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" size="icon">
           <Menu></Menu>
         </Button>
       </DropdownMenuTrigger>
@@ -35,11 +33,7 @@ export function DropdownMenuRadioGroupDemo({
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
         <Link href='/'>
-          <DropdownMenuRadioItem value="Inicio" onClick={() => {
-            if(state){
-              setState(!state)
-            }
-          }}>Inicio</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Inicio">Inicio</DropdownMenuRadioItem>
         </Link>
         <ul>
           {
@@ -57,9 +51,20 @@ export function DropdownMenuRadioGroupDemo({
         <div className="flex md:flex-row items-center gap-2 justify-between">
           <ModeToggle/>
           {
-            state === false && (
-              <Link href='/login/sign-in' onClick={() => setState(!state)} className="rounded-md dark:bg-white dark:text-black bg-black text-white py-1 px-2 dark:hover:bg-slate-500 hover:bg-slate-800">
-                Iniciar sesión
+            pathname === '/' && (
+              <Link href='/login/sign-in'>
+                <Button className="text-pretty">
+                  Iniciar sesión
+                </Button>
+              </Link>
+            )
+          }
+          {
+            pathname === '/' && (
+              <Link href='/login/sign-up'>
+                <Button className="text-pretty">
+                  Registrarse
+                </Button>
               </Link>
             )
           }
