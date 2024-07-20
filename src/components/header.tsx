@@ -1,7 +1,7 @@
 "use client"
 
 import { ModeToggle } from "@/components/button-theme"
-import { APP, NAVIGATION } from "@/lib/consts";
+import { APP, NAVIGATION, NAVIGATION_AUTH } from "@/lib/consts";
 import Link from "next/link";
 import { DropdownMenuRadioGroupDemo } from "./navPhone";
 import { Button } from "./ui/button";
@@ -14,9 +14,9 @@ export default function Header(){
     <header className="flex flex-row justify-between items-center px-2 py-1 sm:px-6 md:px-8 md:py-2 border-b-2">
       <nav className="flex flex-row gap-6 cursor-pointer">
         <Link href="/">
-          <h1 className="text-pretty text-sm sm:text-xl md:text-2xl font-semibold">{APP.title}</h1>
+          <h1 className="text-pretty text-sm md:text-xl lg:text-2xl font-semibold">{APP.title}</h1>
         </Link>
-        <div className="hidden md:flex-row md:gap-3 md:items-center md:flex">
+        <div className="hidden lg:flex-row lg:gap-3 lg:items-center lg:flex">
           {
             NAVIGATION.map( link => (
               <Link
@@ -29,28 +29,24 @@ export default function Header(){
           }
         </div>
       </nav>
-      <div className="hidden md:flex md:flex-row items-center gap-4">
+      <div className="hidden lg:flex md:flex-row items-center gap-4">
         {
           pathname === '/' && (
-            <Link href='/login/sign-in'>
-              <Button className="text-pretty">
-                Iniciar sesión
-              </Button>
-            </Link>
+            NAVIGATION_AUTH.map( auth => (
+              <Link
+              key={auth.id}
+              href={auth.link}
+              >
+                <Button className="text-pretty">
+                  {auth.name}
+                </Button>
+              </Link>
+            ))
           )
-        }
-        {
-          pathname === '/' && (
-            <Link href='/login/sign-up'>
-              <Button className="text-pretty">
-                Registrarse
-              </Button>
-            </Link>
-          )
-        }
+          }
         <ModeToggle/>
       </div>
-      <div className="flex md:hidden">
+      <div className="flex lg:hidden">
         <DropdownMenuRadioGroupDemo />
       </div>
     </header>
