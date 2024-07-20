@@ -2,12 +2,12 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FormEvent, useState } from "react"
 import { createUser, getUser } from "@/app/lib/actions"
+import { useRouter } from "next/navigation"
 
 export default function Authentication({
   type
@@ -20,7 +20,6 @@ export default function Authentication({
   const [isCorrect, setIsCorrect] = useState(true)
   const [email, setEmail] = useState("")
   const [errorLogin, setErrorLogin] = useState(false)
-
   const router = useRouter()
 
   async function handleSubmit(e:FormEvent){
