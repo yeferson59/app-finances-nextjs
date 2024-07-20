@@ -26,6 +26,19 @@ export const NAVIGATION = [
     }
 ]
 
+export const NAVIGATION_AUTH = [
+    {
+        id: 1,
+        name: "Iniciar sesión",
+        link: "/login/sign-in"
+    },
+    {
+        id: 2,
+        name: "Registrarse",
+        link: "/login/sign-up"
+    }
+]
+
 export const APP = {
     title: "My finances",
     description: "Application of finances with dashboard"
