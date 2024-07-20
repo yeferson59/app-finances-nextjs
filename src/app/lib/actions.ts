@@ -63,10 +63,10 @@ export async function getUser(formData: FormData){
     args: [email]
   })
 
-
-
-  const passwordHashed = UserSchema.parse(rows[0])
-
-  const isUser = bcrypt.compareSync(password, passwordHashed.password);
+  let isUser = false;
+  if(rows.length > 0){
+    const passwordHashed = UserSchema.parse(rows[0])
+    isUser = bcrypt.compareSync(password, passwordHashed.password);
+  }
   return isUser
 }
